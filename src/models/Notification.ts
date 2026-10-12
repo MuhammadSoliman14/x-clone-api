@@ -12,3 +12,6 @@ const NotificationSchema = new Schema <INotification>({
     createdAt:{type: Date, default: Date.now},
     NotificationActor: {type: User, required: true}
 })
+
+
+export default mongoose.model<INotification>('Notification', NotificationSchema);

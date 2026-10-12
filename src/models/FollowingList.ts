@@ -8,8 +8,8 @@ import type {IList} from "./sharedList.js"
 const FollowingSchema = new Schema <IList>({
     count: {type: Number, required: true},
     
-    people: [{array: User}]
+   people: [{type: Schema.Types.ObjectId, ref: 'User'}]
 })
 
 
-export default mongoose.model<IList>('FollowingList, FollowingSchema')
+export default mongoose.model<IList>('FollowingList', FollowingSchema)

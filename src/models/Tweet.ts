@@ -3,7 +3,7 @@ import User from "./User.js";
 
 export interface ITweet extends Document {
     content: string;
-    charNumbers: number;    //make it <= 280
+    // charNumbers: number;    //make it <= 280
     likes: number;
     bookmarks: number;
      createdAt: Date;
@@ -12,7 +12,7 @@ export interface ITweet extends Document {
 
 const TweetSchema = new Schema <ITweet>({
     content: {type: String, required: true},
-    charNumbers: {type: Number, required: true},
+    // charNumbers: {type: Number, required: true},
     likes: {type: Number, default: 0},
     bookmarks: {type: Number, default: 0},
     createdAt:{type: Date, default: Date.now},
