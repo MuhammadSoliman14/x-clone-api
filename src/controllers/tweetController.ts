@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { getErrorMEssage } from '../utils/error.js';
+import { getErrorMessage } from '../utils/error.js';
 import { get } from 'mongoose';
 const Tweet = require('../models/Tweet');
 const User = require('../models/User');
@@ -12,7 +12,7 @@ export async function getAllTweetsForUser(req: Request, res: Response){
         }
         res.status(200).json(user.tweets)
     } catch  (error) {
-        res.status(500).json({message: getErrorMEssage(error)});
+        res.status(500).json({message: getErrorMessage(error)});
     }
 }
 
@@ -23,7 +23,7 @@ export async function getTweet(req: Request, res: Response){
         res.status(200).json(tweet);
 
     } catch (error){
-        res.status(500).json({message: getErrorMEssage(error)});
+        res.status(500).json({message: getErrorMessage(error)});
     }
 
 }
@@ -34,7 +34,7 @@ export async function createTweet (req: Request, res: Response){
              res.status(200).json(tweet);
 
     } catch (error){
-        res.status(500).json({message: getErrorMEssage(error)});
+        res.status(500).json({message: getErrorMessage(error)});
     }
         }
 
@@ -47,7 +47,7 @@ export async function deleteTweet(req: Request, res: Response) {
         res.status(200).json("Tweet have been deleted");
 
     } catch(error){
-        res.status(500).json({message: getErrorMEssage(error)});
+        res.status(500).json({message: getErrorMessage(error)});
     }
     
 }
@@ -60,7 +60,7 @@ export async function likeTweet (req: Request, res: Response){
         }
         tweet.likes +=1 ;
     } catch (error) {
-        res.status(500).json({message: getErrorMEssage(error)});
+        res.status(500).json({message: getErrorMessage(error)});
     }
 }
 
@@ -73,7 +73,7 @@ export async function unLikeTweet (req: Request, res: Response){
         }
         tweet.likes -=1 ;
     } catch (error) {
-        res.status(500).json({message: getErrorMEssage(error)});
+        res.status(500).json({message: getErrorMessage(error)});
     }
 }
 
@@ -86,7 +86,7 @@ export async function bookmarkTweet (req: Request, res: Response){
         }
         tweet.bookmarks +=1 ;
     } catch (error) {
-        res.status(500).json({message: getErrorMEssage(error)});
+        res.status(500).json({message: getErrorMessage(error)});
     }
 }
 
@@ -99,7 +99,7 @@ export async function unBookmarkTweet (req: Request, res: Response){
         }
         tweet.bookmarks -=1 ;
     } catch (error) {
-        res.status(500).json({message: getErrorMEssage(error)});
+        res.status(500).json({message: getErrorMessage(error)});
     }
 }
 
