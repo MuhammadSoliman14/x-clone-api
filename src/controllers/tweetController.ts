@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express'
 import { getErrorMessage } from '../utils/error.js';
 import { get } from 'mongoose';
-const Tweet = require('../models/Tweet');
-const User = require('../models/User');
+import Tweet from '../models/Tweet.js';
+import User from '../models/User.js';
 
 export async function getAllTweetsForUser(req: Request, res: Response){
     try {
@@ -43,7 +43,7 @@ export async function createTweet (req: Request, res: Response){
   
 export async function deleteTweet(req: Request, res: Response) {
     try {
-        const tweet = await Tweet.findByIdandDelete(req.params.id);
+        const tweet = await Tweet.findByIdAndDelete(req.params.id);
         res.status(200).json("Tweet have been deleted");
 
     } catch(error){
@@ -102,4 +102,6 @@ export async function unBookmarkTweet (req: Request, res: Response){
         res.status(500).json({message: getErrorMessage(error)});
     }
 }
+
+
 

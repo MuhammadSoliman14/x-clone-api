@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express'
 import { getErrorMessage } from '../utils/error.js';
-const FollowersList = require('../models/FollowingList');
-const User = require('../models/User');
+// import FollowersList from '../models/FollowingLis.js'; 
+import User from '../models/User.js';
 
 export async function getAllFollowingForUser(req: Request, res: Response){
    try {

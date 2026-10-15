@@ -19,4 +19,4 @@ const TweetSchema = new Schema <ITweet>({
     postedBy: {type: User, required: true}
 })
 
-
+export default mongoose.model<ITweet>('Tweet', TweetSchema);

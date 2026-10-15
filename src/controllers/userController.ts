@@ -1,6 +1,6 @@
  import type { Request, Response } from 'express'
 import { getErrorMessage } from '../utils/error.js';
-const User = require('../models/User');
+import User from '../models/User.js';
 
 export async function getUsers(req: Request, res: Response) {
    try {
@@ -30,7 +30,7 @@ export async function getUserById (req: Request, res: Response){
 
 export async function deleteUser(req: Request, res: Response){
     try {
-        await User.findByIdandDelete(req.params.id);
+        await User.findByIdAndDelete(req.params.id);
         res.status(200).json({message: 'User deleted'});
     } catch (error) {
         res.status(500).json({message: getErrorMessage(error)});

@@ -1,12 +1,8 @@
 import type { Request, Response } from 'express'
 import { getErrorMessage } from '../utils/error.js';
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User.js');
-// import from 
-// import bcrypt from 'bcrypt'
-// import jwt from 'jsonwebtoken'
-// import User from '../models/User.js'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import User from '../models/User.js'
 
 export async function register (req: Request, res: Response){
     try {
