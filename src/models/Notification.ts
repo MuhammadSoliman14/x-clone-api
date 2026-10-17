@@ -5,12 +5,14 @@ export interface INotification extends Document {
     content: string;
      createdAt: Date;
     NotificationActor: Types.ObjectId;
+     recipient: Types.ObjectId;
 }
 
 const NotificationSchema = new Schema <INotification>({
     content: {type: String, required: true},
     createdAt:{type: Date, default: Date.now},
-    NotificationActor: {type: Schema.Types.ObjectId, ref: 'User', required: true}
+    NotificationActor: {type: Schema.Types.ObjectId, ref: 'User', required: true},
+    recipient: {type: Schema.Types.ObjectId, ref: 'User', required: true}
 })
 
 
