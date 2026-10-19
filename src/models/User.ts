@@ -1,10 +1,5 @@
 import mongoose, {Schema, Types, model, type Document} from "mongoose";
 import type { ITweet } from "./Tweet.js";
-import { array } from "node:stream/iter";
-import type { IList } from "./sharedList.js";
-import FollowingList from "./FollowingList.js";
-import FollowersList from "./FollowersList.js";
-
 
 export enum UserRole {
     USER = 'user',
@@ -17,8 +12,8 @@ export interface IUser extends Document{
     name: string;
     email: string;
     tweets: Types.ObjectId[] | ITweet [];
-    following: Types.ObjectId [] | IList [];
-    followers: Types.ObjectId [] | IList [];
+    following: Types.ObjectId [] ;
+    followers: Types.ObjectId [] ;
     password: string;
     role: UserRole,
     createdAt: Date;
@@ -32,9 +27,9 @@ const UserSchema = new Schema<IUser>({
     name: {type: String, required: true, unique: false},
     email: {type: String, required: false, unique: true},
     tweets: [{type: Schema.Types.ObjectId, ref: 'Tweet'}] ,
-    following: [{type: Schema.Types.ObjectId, ref: FollowingList}],
-    followers: [{type: Schema.Types.ObjectId, ref: FollowersList}],
-    password: {type: String, requried: true},
+    following: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    followers: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    password: {type: String, required: true},
     role: {type: String, enum: Object.values(UserRole), default: UserRole.USER},
     createdAt:{type: Date, default: Date.now}
 })

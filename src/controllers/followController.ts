@@ -2,7 +2,8 @@ import type { Request, Response } from 'express'
 import { getErrorMessage } from '../utils/error.js';
 import {Types} from 'mongoose'; 
 import User from '../models/User.js';
-
+import { createNotification } from '../utils/notification.js';
+import { Utf8Stream } from 'node:fs';
 
 
 export async function getAllFollowingForUser(req: Request, res: Response){
@@ -36,8 +37,9 @@ export async function getAllFollowersForUser(req: Request, res: Response){
 
 export async function FollowSomeone(req: Request, res: Response){
     try {
-        const targetId =  req.params.id;
+        const targetId =  req.params.id as string;
         const currentUserId = req.user!.id ;
+        const currentUser = await User.findById(currentUserId);
        // check if user tries to follow themselves
         if (targetId === currentUserId ){
             return res.status(401).json({message: 'you can not follow yourself' });
@@ -64,6 +66,15 @@ export async function FollowSomeone(req: Request, res: Response){
             await User.findByIdAndUpdate(currentUserId, {
                 $push: {following: targetId}
             })
+
+                await createNotification({
+                    recipient: targetId,
+                    actor: currentUserId,
+                    content: `${currentUser?.username} followed you`
+                })
+
+
+
         
         res.status(200).json({ message: `You just followed ${targetUser.username}` })
 
@@ -76,10 +87,12 @@ export async function FollowSomeone(req: Request, res: Response){
 
 
 
+
 export async function UnfollowSomeone(req: Request, res: Response){
     try {
-        const targetId =  req.params.id;
+        const targetId =  req.params.id as string;
         const currentUserId = req.user!.id ;
+        const currentUser = await User.findById(currentUserId);
        // check if user tries to follow themselves
         if (targetId === currentUserId ){
            return res.status(401).json({message: 'you can not unfollow yourself' });
@@ -107,6 +120,11 @@ export async function UnfollowSomeone(req: Request, res: Response){
                 $pull: {following: targetId}
             })
         
+             await createNotification({
+                    recipient: targetId,
+                    actor: currentUserId,
+                    content: `${currentUser?.username} unfollowed you`
+                })
         res.status(200).json({ message: `You just unfollowed ${targetUser.username}` })
 
 
@@ -114,3 +132,4 @@ export async function UnfollowSomeone(req: Request, res: Response){
         res.status(500).json({message: getErrorMessage(error)});
     }
 }
+
