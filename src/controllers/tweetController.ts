@@ -61,7 +61,16 @@ export async function likeTweet(req: Request, res: Response) {
         const currentUser = await User.findById(currentUserId)
         const tweet = await Tweet.findById(req.params.id as string)
         if (!tweet) return res.status(404).json({ message: 'Tweet not found' })
-        tweet.likes += 1
+
+        if (tweet.likedBy?.includes(new Types.ObjectId(currentUserId))) {
+            return res.status(400).json({ message: 'You have already liked this tweet' })
+        }
+
+        await Tweet.findByIdAndUpdate(req.params.id, {
+            $push: { likedBy: new Types.ObjectId(currentUserId) },
+            $inc: { likes: 1 }
+        })
+        
         await tweet.save()
         await createNotification({
             recipient: tweet.postedBy.toString(),
@@ -78,7 +87,10 @@ export async function unLikeTweet(req: Request, res: Response) {
     try {
         const tweet = await Tweet.findById(req.params.id as string)
         if (!tweet) return res.status(404).json({ message: 'Tweet not found' })
-        tweet.likes -= 1
+       await Tweet.findByIdAndUpdate(req.params.id, {
+            $pull: { likedBy: new Types.ObjectId(req.user!.id) },
+            $inc: { likes: -1 }
+        })
         await tweet.save()
         res.status(200).json({ message: 'Tweet unliked successfully' })
     } catch (error) {
@@ -90,8 +102,9 @@ export async function bookmarkTweet(req: Request, res: Response) {
     try {
         const tweet = await Tweet.findById(req.params.id as string)
         if (!tweet) return res.status(404).json({ message: 'Tweet not found' })
-        tweet.bookmarks += 1
-        await tweet.save()
+        await Tweet.findByIdAndUpdate(req.params.id, {
+            $inc: { bookmarks: 1 }
+        })
         res.status(200).json({ message: 'Tweet bookmarked successfully' })
     } catch (error) {
         res.status(500).json({ message: getErrorMessage(error) })
@@ -102,7 +115,9 @@ export async function unBookmarkTweet(req: Request, res: Response) {
     try {
         const tweet = await Tweet.findById(req.params.id as string)
         if (!tweet) return res.status(404).json({ message: 'Tweet not found' })
-        tweet.bookmarks -= 1
+        await Tweet.findByIdAndUpdate(req.params.id, {
+            $inc: { bookmarks: -1 }
+        })
         await tweet.save()
         res.status(200).json({ message: 'Tweet unbookmarked successfully' })
     } catch (error) {

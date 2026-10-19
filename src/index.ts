@@ -10,8 +10,7 @@ import notificationRoutes from './routes/notificationRoutes.js';
 
 dotenv.config()
 const app = express();
-const PORT = process.env.PORT || 8080;
-
+const PORT =8080;
 
 const MONGO_URI = process.env.MONGO_URI || ''
 
@@ -36,13 +35,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 console.error(err.stack);
 res.status(500).json({message: err.message});
 })
-
-
-
-// mongoose.connect(MONGO_URI)
-// .then(() => console.log('MongoDB connected'))
-// .catch((err: String) => console.error('Connection error:', err));
-
 
 
 
