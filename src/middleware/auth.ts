@@ -1,4 +1,3 @@
-import { error } from 'console';
 import type { Request, Response, NextFunction } from 'express'
 import jwt  from 'jsonwebtoken';
 

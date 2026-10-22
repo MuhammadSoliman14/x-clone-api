@@ -1,5 +1,5 @@
 import mongoose, {Schema,Types, model, type Document} from "mongoose";
-import User from "./User.js";
+
 
 export interface ITweet extends Document {
     content: string;
