@@ -9,8 +9,10 @@ import followRoutes from './routes/followRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 
 dotenv.config()
+if (!process.env.MONGO_URI) { console.error('MONGO_URI not set'); process.exit(1) }
+if (!process.env.JWT_SECRET) { console.error('JWT_SECRET not set'); process.exit(1) }
 const app = express();
-const PORT =8080;
+const PORT = process.env.PORT || 8080;
 
 const MONGO_URI = process.env.MONGO_URI || ''
 
