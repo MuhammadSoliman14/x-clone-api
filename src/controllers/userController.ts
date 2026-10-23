@@ -47,3 +47,20 @@ export async function deleteUser(req: Request, res: Response){
          } catch (error){
             res.status(500).json({message: getErrorMessage(error)})
     }}
+
+
+  export async function searchUsers(req: Request, res: Response) {
+    try {
+        const query = req.query.q as string
+        if (!query) return res.status(400).json({ message: 'Search query is required' })
+
+        const sanitized = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        const users = await User.find({
+            username: { $regex: `^${sanitized}`, $options: 'i' }
+        }).select('-password').limit(20)
+
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(500).json({ message: getErrorMessage(error) })
+    }
+}

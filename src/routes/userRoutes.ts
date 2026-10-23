@@ -5,7 +5,9 @@ const router = express.Router();
 
 //public
 router.get('/', userController.getUsers);
+router.get('/search', userController.searchUsers)
 router.get('/:id', userController.getUserById);
+
 
 //protected
 router.delete('/:id', authorizeRoles('user', 'admin'), userController.deleteUser);
