@@ -4,6 +4,7 @@ import { Types } from 'mongoose'
 import Tweet from '../models/Tweet.js'
 import User from '../models/User.js'
 import { createNotification } from '../utils/notification.js'
+import Feed from '../models/Feed.js';
 
 export async function getAllTweetsForUser(req: Request, res: Response) {
     try {
@@ -35,6 +36,22 @@ export async function createTweet(req: Request, res: Response) {
         await User.findByIdAndUpdate(req.user!.id, {
             $push: { tweets: tweet._id }
         })
+
+       const currentUser = await User.findById(req.user!.id).select('followers')
+       if (currentUser && currentUser.followers.length > 0) {
+            const feedDocs = currentUser.followers.map (followerId => ({
+                 userId: followerId,
+                tweetId: tweet._id,
+                createdAt: tweet.createdAt
+            }))
+            await Feed.insertMany(feedDocs);
+       }
+       
+
+        
+
+
+
         res.status(201).json(tweet)
     } catch (error) {
         res.status(500).json({ message: getErrorMessage(error) })
