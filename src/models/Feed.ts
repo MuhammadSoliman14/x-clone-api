@@ -11,3 +11,6 @@ const feedSchema = new Schema <IFeed> ({
     tweetId: {type: Schema.Types.ObjectId, ref:'Tweet', required: true},
      createdAt: {type: Date, default: Date.now}
     })
+
+
+   export default mongoose.model<IFeed>("Feed", feedSchema);
