@@ -22,13 +22,18 @@
   "homepage": "https://github.com/MuhammadSoliman14/x-clone-api#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
     "dotenv": "^18.0.8",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.11.1"
+    "mongoose": "^9.11.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",

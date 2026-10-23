@@ -2,6 +2,9 @@ import express from 'express';
 import type { NextFunction, Request , Response } from 'express';
 import mongoose from'mongoose';
 import dotenv from 'dotenv';
+import helmet from 'helmet';
+import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import tweetRoutes from './routes/tweetRoutes.js';
@@ -11,10 +14,22 @@ import notificationRoutes from './routes/notificationRoutes.js';
 dotenv.config()
 if (!process.env.MONGO_URI) { console.error('MONGO_URI not set'); process.exit(1) }
 if (!process.env.JWT_SECRET) { console.error('JWT_SECRET not set'); process.exit(1) }
+
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 const MONGO_URI = process.env.MONGO_URI || ''
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: {message: 'Too many requests, please try again in a while'}
+})
+
+app.use(helmet())
+app.use(cors())
+app.use(limiter)
 
 //middlware
 app.use(express.json());
