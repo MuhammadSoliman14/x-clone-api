@@ -88,7 +88,7 @@ export async function likeTweet(req: Request, res: Response) {
             $inc: { likes: 1 }
         })
         
-        await tweet.save()
+        
         await createNotification({
             recipient: tweet.postedBy.toString(),
             actor: currentUserId,
@@ -108,7 +108,7 @@ export async function unLikeTweet(req: Request, res: Response) {
             $pull: { likedBy: new Types.ObjectId(req.user!.id) },
             $inc: { likes: -1 }
         })
-        await tweet.save()
+        
         res.status(200).json({ message: 'Tweet unliked successfully' })
     } catch (error) {
         res.status(500).json({ message: getErrorMessage(error) })

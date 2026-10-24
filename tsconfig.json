@@ -40,5 +40,6 @@
     "moduleDetection": "force",
     "skipLibCheck": true, 
     
-  }
+  },
+  "exclude": ["vitest.config.ts", "src/tests"]
 }
